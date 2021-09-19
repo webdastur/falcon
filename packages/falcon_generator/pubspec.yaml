@@ -1,5 +1,5 @@
-name: falcon
-description: Falcon is SQLite ORM
+name: falcon_generator
+description: Falcon Generator
 version: 0.0.1
 homepage:
 

@@ -1,4 +1,4 @@
-library falcon;
+library falcon_generator;
 
 /// A Calculator.
 class Calculator {

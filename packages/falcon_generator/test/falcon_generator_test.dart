@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:falcon/falcon.dart';
+import 'package:falcon_generator/falcon_generator.dart';
 
 void main() {
   test('adds one to input values', () {
