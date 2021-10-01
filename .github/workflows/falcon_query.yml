@@ -28,4 +28,16 @@ jobs:
         run: dart analyze --fatal-infos --fatal-warnings .
 
       - name: Run tests
-        run: dart test
+        run: |
+          dart pub global activate test_coverage
+          export PATH=$PATH:$HOME/.pub-cache/bin
+          test_coverage
+      - name: Check Code Coverage
+        uses: VeryGoodOpenSource/very_good_coverage@v1.2.0
+        with:
+          path: packages/falcon_query/coverage/lcov.info
+      
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
