@@ -12,6 +12,10 @@ on:
 
 jobs:
   build:
+    defaults:
+      run:
+        working-directory: packages/falcon_query
+
     runs-on: ubuntu-latest
 
     steps:
@@ -19,7 +23,7 @@ jobs:
       - uses: dart-lang/setup-dart@v1
 
       - name: Install dependencies
-        run: dart pub get
+        run: pub get
 
       - name: Verify formatting
         run: dart format --set-exit-if-changed .
@@ -32,6 +36,7 @@ jobs:
           dart pub global activate test_coverage
           export PATH=$PATH:$HOME/.pub-cache/bin
           test_coverage
+
       - name: Check Code Coverage
         uses: VeryGoodOpenSource/very_good_coverage@v1.2.0
         with:
