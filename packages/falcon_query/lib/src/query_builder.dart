@@ -22,7 +22,7 @@ class QueryBuilder {
 
   /// Select columns
   ///
-  /// Select [columns] Ex: `SELECT column1, column2`
+  /// Select [columns] Ex: `SELECT column1, ...`
   QueryBuilder select(List<String> columns) {
     _write("SELECT ${columns.join(", ")}");
     return this;
@@ -30,9 +30,25 @@ class QueryBuilder {
 
   /// Select All Columns
   ///
-  /// Ex: `SELECT *`
+  /// Ex: `SELECT * ...`
   QueryBuilder selectAll() {
     return select(['*']);
+  }
+
+  /// Select Distinct values
+  ///
+  /// Select Distinct [columns] Ex: `SELECT DISTINCT column1, ...`
+  QueryBuilder selectDistinct(List<String> columns) {
+    _write("SELECT DISTINCT ${columns.join(", ")}");
+    return this;
+  }
+
+  /// Select All Distinct values
+  ///
+  /// Ex: `SELECT DISTINCT * ...`
+  QueryBuilder selectAllDistinct() {
+    selectDistinct(['*']);
+    return this;
   }
 
   /// FROM statement
