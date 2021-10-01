@@ -9,7 +9,10 @@ void main() {
     });
 
     test("column1 and column2 from 'tableName'", () {
-      String query = QueryBuilder.i.select(["column1", "column2"]).from("tableName").build();
+      String query = QueryBuilder.i
+          .select(["column1", "column2"])
+          .from("tableName")
+          .build();
       expect(query, equals("SELECT column1, column2 FROM tableName;"));
     });
   });
