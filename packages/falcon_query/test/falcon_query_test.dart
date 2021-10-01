@@ -47,6 +47,20 @@ SELECT * FROM tableName WHERE name = \'Alex\' AND age > 18 AND updatedAt < \'202
     );
   });
 
+  test('greater than string', () {
+    var query = QueryBuilder.i
+        .selectAll()
+        .from('tableName')
+        .where()
+        .add('name')
+        .greaterThan('Alex')
+        .build();
+    expect(
+      query,
+      'SELECT * FROM tableName WHERE name > \'Alex\';',
+    );
+  });
+
   test('greater than or equal', () {
     var query = QueryBuilder.i
         .selectAll()
@@ -61,6 +75,62 @@ SELECT * FROM tableName WHERE name = \'Alex\' AND age > 18 AND updatedAt < \'202
     );
   });
 
+  test('greater than or equal string', () {
+    var query = QueryBuilder.i
+        .selectAll()
+        .from('tableName')
+        .where()
+        .add('name')
+        .greaterThanOrEqual('Alex')
+        .build();
+    expect(
+      query,
+      'SELECT * FROM tableName WHERE name >= \'Alex\';',
+    );
+  });
+
+  test('less than string', () {
+    var query = QueryBuilder.i
+        .selectAll()
+        .from('tableName')
+        .where()
+        .add('name')
+        .lessThan('Alex')
+        .build();
+    expect(
+      query,
+      'SELECT * FROM tableName WHERE name < \'Alex\';',
+    );
+  });
+
+  test('less than', () {
+    var query = QueryBuilder.i
+        .selectAll()
+        .from('tableName')
+        .where()
+        .add('age')
+        .lessThan(18)
+        .build();
+    expect(
+      query,
+      'SELECT * FROM tableName WHERE age < 18;',
+    );
+  });
+
+  test('less than or equal string', () {
+    var query = QueryBuilder.i
+        .selectAll()
+        .from('tableName')
+        .where()
+        .add('name')
+        .lessThanOrEqual('Alex')
+        .build();
+    expect(
+      query,
+      'SELECT * FROM tableName WHERE name <= \'Alex\';',
+    );
+  });
+
   test('less than or equal', () {
     var query = QueryBuilder.i
         .selectAll()
@@ -72,6 +142,20 @@ SELECT * FROM tableName WHERE name = \'Alex\' AND age > 18 AND updatedAt < \'202
     expect(
       query,
       'SELECT * FROM tableName WHERE age <= 18;',
+    );
+  });
+
+  test('not equal string', () {
+    var query = QueryBuilder.i
+        .selectAll()
+        .from('tableName')
+        .where()
+        .add('name')
+        .notEqual('Alex')
+        .build();
+    expect(
+      query,
+      'SELECT * FROM tableName WHERE name != \'Alex\';',
     );
   });
 
