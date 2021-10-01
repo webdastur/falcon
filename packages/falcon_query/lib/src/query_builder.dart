@@ -16,7 +16,7 @@ class QueryBuilder {
   /// [i] short form of [instance]
   static QueryBuilder get i => instance;
 
-  void _write(String value) {
+  void _write(dynamic value) {
     _buffer.write(' $value');
   }
 
@@ -24,8 +24,7 @@ class QueryBuilder {
   ///
   /// Select [columns] Ex: `SELECT column1, ...`
   QueryBuilder select(List<String> columns) {
-    _write("SELECT ${columns.join(", ")}");
-    return this;
+    return add("SELECT ${columns.join(", ")}");
   }
 
   /// Select All Columns
@@ -39,16 +38,14 @@ class QueryBuilder {
   ///
   /// Select Distinct [columns] Ex: `SELECT DISTINCT column1, ...`
   QueryBuilder selectDistinct(List<String> columns) {
-    _write("SELECT DISTINCT ${columns.join(", ")}");
-    return this;
+    return add("SELECT DISTINCT ${columns.join(", ")}");
   }
 
   /// Select All Distinct values
   ///
   /// Ex: `SELECT DISTINCT * ...`
   QueryBuilder selectAllDistinct() {
-    selectDistinct(['*']);
-    return this;
+    return selectDistinct(['*']);
   }
 
   /// FROM statement
@@ -62,8 +59,142 @@ class QueryBuilder {
   /// SELECT * FROM tableName;
   /// ```
   QueryBuilder from(String tableName) {
-    _write('FROM $tableName');
+    return add('FROM $tableName');
+  }
+
+  /// The `WHERE` clause is used to filter records.
+  ///
+  /// ```sql
+  /// SELECT column1, column2, ...
+  /// FROM table_name
+  /// WHERE condition;
+  /// ```
+  QueryBuilder where() {
+    return add('WHERE');
+  }
+
+  /// Add something to Query
+  ///
+  /// Ex:
+  /// ```dart
+  /// QueryBuilder.i
+  ///   .selectAll()
+  ///   .from('tableName')
+  ///   .where()
+  ///   .add('FirstName')
+  ///   .equal('Alex')
+  ///   .build();
+  /// ```
+  /// return
+  /// ```sql
+  /// SELECT * FROM tableName WHERE FirstName='Alex';
+  /// ```
+  QueryBuilder add(dynamic value) {
+    _write(value);
     return this;
+  }
+
+  bool _isNum(dynamic value) {
+    return value is int || value is double;
+  }
+
+  /// Equal operator '='
+  QueryBuilder equal(dynamic value) {
+    if (_isNum(value)) {
+      return add('= $value');
+    }
+    return add('= \'$value\'');
+  }
+
+  /// Greater Than operator '>'
+  QueryBuilder greaterThan(dynamic value) {
+    if (_isNum(value)) {
+      return add('> $value');
+    }
+    return add('> \'$value\'');
+  }
+
+  /// Less Than operator '<'
+  QueryBuilder lessThan(dynamic value) {
+    if (_isNum(value)) {
+      return add('< $value');
+    }
+    return add('< \'$value\'');
+  }
+
+  /// Greater Than Or Equal operator '>='
+  QueryBuilder greaterThanOrEqual(dynamic value) {
+    if (_isNum(value)) {
+      return add('>= $value');
+    }
+    return add('>= \'$value\'');
+  }
+
+  /// Less Than Or Equal operator '<='
+  QueryBuilder lessThanOrEqual(dynamic value) {
+    if (_isNum(value)) {
+      return add('<= $value');
+    }
+    return add('<= \'$value\'');
+  }
+
+  /// Not Equal operator '!='
+  QueryBuilder notEqual(dynamic value) {
+    if (_isNum(value)) {
+      return add('!= $value');
+    }
+    return add('!= \'$value\'');
+  }
+
+  /// BETWEEN operator
+  QueryBuilder between() {
+    return add('BETWEEN');
+  }
+
+  /// LIKE operator
+  QueryBuilder like(String pattern) {
+    return add('LIKE \'$pattern\'');
+  }
+
+  /// IN Operator
+  ///
+  /// Ex:
+  /// ```dart
+  /// QueryBuilder.i
+  ///   .selectAll()
+  ///   .from('tableName')
+  ///   .where()
+  ///   .add('FirstName')
+  ///   .iN(['Alex', 'John', 'Jacky'])
+  ///   .build();
+  /// ```
+  /// return
+  /// ```sql
+  /// SELECT * FROM tableName WHERE FirstName IN ('Alex', 'John', 'Jacky');
+  /// ```
+  QueryBuilder iN(List values) {
+    values = values.map<dynamic>((dynamic e) {
+      if (_isNum(e)) {
+        return e;
+      }
+      return '\'$e\'';
+    }).toList();
+    return add('IN (${values.join(', ')})');
+  }
+
+  /// AND operator
+  QueryBuilder and() {
+    return add('AND');
+  }
+
+  /// OR operator
+  QueryBuilder or() {
+    return add('OR');
+  }
+
+  /// NOT operator
+  QueryBuilder not() {
+    return add('NOT');
   }
 
   /// Returns completed SQL Query
