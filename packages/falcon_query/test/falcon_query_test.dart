@@ -329,4 +329,14 @@ SELECT * FROM tableName WHERE name = \'Alex\' AND age > 18 AND updatedAt < \'202
       throwsException,
     );
   });
+
+  test('delete', () {
+    var query = QueryBuilder.i
+        .delete('tableName')
+        .where()
+        .add('column1')
+        .equal(1)
+        .build();
+    expect(query, 'DELETE FROM tableName WHERE column1 = 1;');
+  });
 }

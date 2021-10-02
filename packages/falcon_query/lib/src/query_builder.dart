@@ -278,6 +278,11 @@ class QueryBuilder {
     return add('UPDATE $tableName SET ${data.join(', ')}');
   }
 
+  /// DELETE statement
+  QueryBuilder delete(String tableName) {
+    return add('DELETE FROM $tableName');
+  }
+
   /// Returns completed SQL Query
   String build() {
     var result = _buffer.toString().trim();
