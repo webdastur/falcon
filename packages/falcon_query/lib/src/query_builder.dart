@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:falcon_query/src/consts/order_by.dart';
 
 /// [QueryBuilder] is SQL Query Builder class
@@ -248,6 +249,33 @@ class QueryBuilder {
   /// Check column value is not null
   QueryBuilder isNotNull(String column) {
     return add('$column IS NOT NULL');
+  }
+
+  /// Update given table columns
+  ///
+  /// [throw] error when columns and values don't match
+  QueryBuilder update({
+    required String tableName,
+    required List<String> columns,
+    required List<dynamic> values,
+  }) {
+    values = values.map<dynamic>((e) {
+      if (_isNum(e)) {
+        return e;
+      }
+      return '\'$e\'';
+    }).toList();
+    if (columns.length != values.length) {
+      throw Exception('Columns and Values don\'t match.');
+    }
+    var data = values.mapIndexed((index, element) {
+      if (_isNum(element)) {
+        return '${columns[index]} = $element';
+      }
+      return '${columns[index]} = $element';
+    }).toList();
+
+    return add('UPDATE $tableName SET ${data.join(', ')}');
   }
 
   /// Returns completed SQL Query

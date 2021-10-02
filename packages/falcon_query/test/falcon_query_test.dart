@@ -296,4 +296,37 @@ SELECT * FROM tableName WHERE name = \'Alex\' AND age > 18 AND updatedAt < \'202
         .build();
     expect(query, 'SELECT * FROM tableName WHERE column1 IS NOT NULL;');
   });
+
+  test('update with same length columns and values', () {
+    var query = QueryBuilder.i
+        .update(
+          tableName: 'tableName',
+          columns: ['column1', 'column2'],
+          values: [1, 'Alex'],
+        )
+        .where()
+        .add('column3')
+        .equal(1)
+        .build();
+    expect(
+      query,
+      'UPDATE tableName SET column1 = 1, column2 = \'Alex\' WHERE column3 = 1;',
+    );
+  });
+
+  test('update with not same length columns and values', () {
+    expect(
+      () => QueryBuilder.i
+          .update(
+            tableName: 'tableName',
+            columns: ['column1'],
+            values: [1, 'Alex'],
+          )
+          .where()
+          .add('column3')
+          .equal(1)
+          .build(),
+      throwsException,
+    );
+  });
 }
