@@ -1,10 +1,16 @@
+import 'package:falcon_query/src/consts/order_by.dart';
+
 /// [QueryBuilder] is SQL Query Builder class
 class QueryBuilder {
+  /// private constructor for singleton
   QueryBuilder._internal() {
     _buffer = StringBuffer();
   }
 
+  /// query collector
   late StringBuffer _buffer;
+
+  /// Private instance for singleton
   static QueryBuilder? _instance;
 
   /// [instance] return [QueryBuilder] instance
@@ -94,6 +100,7 @@ class QueryBuilder {
     return this;
   }
 
+  /// Check value is number
   bool _isNum(dynamic value) {
     return value is int || value is double;
   }
@@ -195,6 +202,17 @@ class QueryBuilder {
   /// NOT operator
   QueryBuilder not() {
     return add('NOT');
+  }
+
+  /// ORDER BY for ordering
+  ///
+  /// [columns] columns for ordering(sorting)
+  /// [sort] for sorting [OrderBy.asc] or [OrderBy.desc]
+  QueryBuilder orderBy({
+    required List<String> columns,
+    String sort = OrderBy.asc,
+  }) {
+    return add('ORDER BY ${columns.join(', ')} $sort');
   }
 
   /// Returns completed SQL Query

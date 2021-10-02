@@ -1,4 +1,5 @@
 import 'package:falcon_query/falcon_query.dart';
+import 'package:falcon_query/src/consts/order_by.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -232,6 +233,28 @@ SELECT * FROM tableName WHERE name = \'Alex\' AND age > 18 AND updatedAt < \'202
     expect(
       query,
       'SELECT * FROM tableName WHERE name IN (\'Alex\', \'John\', \'Jacky\');',
+    );
+  });
+
+  test('order by asc', () {
+    var query = QueryBuilder.i
+        .selectAll()
+        .from('tableName')
+        .orderBy(columns: ['column1', 'column2']).build();
+    expect(
+      query,
+      'SELECT * FROM tableName ORDER BY column1, column2 ASC;',
+    );
+  });
+
+  test('order by desc', () {
+    var query = QueryBuilder.i
+        .selectAll()
+        .from('tableName')
+        .orderBy(columns: ['column1', 'column2'], sort: OrderBy.desc).build();
+    expect(
+      query,
+      'SELECT * FROM tableName ORDER BY column1, column2 DESC;',
     );
   });
 }
