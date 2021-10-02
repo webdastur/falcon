@@ -215,6 +215,31 @@ class QueryBuilder {
     return add('ORDER BY ${columns.join(', ')} $sort');
   }
 
+  /// INSERT INTO statement
+  ///
+  /// Insert new record to [tableName]
+  /// [columns] is column names
+  /// [values] is column values
+  QueryBuilder insertInto({
+    required String tableName,
+    List<String> columns = const [],
+    required List<dynamic> values,
+  }) {
+    values = values.map<dynamic>((e) {
+      if (_isNum(e)) {
+        return e;
+      }
+      return '\'$e\'';
+    }).toList();
+    if (columns.isEmpty) {
+      return add('INSERT INTO $tableName VALUES (${values.join(', ')})');
+    }
+    return add(
+      'INSERT INTO $tableName '
+      '(${columns.join(', ')}) VALUES (${values.join(', ')})',
+    );
+  }
+
   /// Returns completed SQL Query
   String build() {
     var result = _buffer.toString().trim();

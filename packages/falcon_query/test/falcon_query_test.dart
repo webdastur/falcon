@@ -1,5 +1,6 @@
 import 'package:falcon_query/falcon_query.dart';
 import 'package:falcon_query/src/consts/order_by.dart';
+import 'package:falcon_query/src/query_builder.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -255,6 +256,24 @@ SELECT * FROM tableName WHERE name = \'Alex\' AND age > 18 AND updatedAt < \'202
     expect(
       query,
       'SELECT * FROM tableName ORDER BY column1, column2 DESC;',
+    );
+  });
+
+  test('insert into empty columns', () {
+    var query = QueryBuilder.i
+        .insertInto(tableName: 'tableName', values: [1, 'Alex']).build();
+    expect(query, 'INSERT INTO tableName VALUES (1, \'Alex\');');
+  });
+
+  test('insert into empty columns', () {
+    var query = QueryBuilder.i.insertInto(
+      tableName: 'tableName',
+      values: [1, 'Alex'],
+      columns: ['column1', 'column2'],
+    ).build();
+    expect(
+      query,
+      'INSERT INTO tableName (column1, column2) VALUES (1, \'Alex\');',
     );
   });
 }
