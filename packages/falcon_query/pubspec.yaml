@@ -1,6 +1,6 @@
 name: falcon_query
-description: falcon_query is SQL query builder for Falcon ORM
-version: 0.0.1
+description: falcon_query is SQL query builder for Falcon ORM. Fast And Lightweight.
+version: 0.0.2
 repository: https://github.com/webdastur/falcon/tree/master/packages/falcon_query
 issue_tracker: https://github.com/webdastur/falcon/issues
 homepage: https://github.com/webdastur/falcon
