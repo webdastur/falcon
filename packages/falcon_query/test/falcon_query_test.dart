@@ -276,4 +276,24 @@ SELECT * FROM tableName WHERE name = \'Alex\' AND age > 18 AND updatedAt < \'202
       'INSERT INTO tableName (column1, column2) VALUES (1, \'Alex\');',
     );
   });
+
+  test('select where column1 is null', () {
+    var query = QueryBuilder.i
+        .selectAll()
+        .from('tableName')
+        .where()
+        .isNull('column1')
+        .build();
+    expect(query, 'SELECT * FROM tableName WHERE column1 IS NULL;');
+  });
+
+  test('select where column1 is not null', () {
+    var query = QueryBuilder.i
+        .selectAll()
+        .from('tableName')
+        .where()
+        .isNotNull('column1')
+        .build();
+    expect(query, 'SELECT * FROM tableName WHERE column1 IS NOT NULL;');
+  });
 }

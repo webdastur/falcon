@@ -240,6 +240,16 @@ class QueryBuilder {
     );
   }
 
+  /// Check column value is null
+  QueryBuilder isNull(String column) {
+    return add('$column IS NULL');
+  }
+
+  /// Check column value is not null
+  QueryBuilder isNotNull(String column) {
+    return add('$column IS NOT NULL');
+  }
+
   /// Returns completed SQL Query
   String build() {
     var result = _buffer.toString().trim();
